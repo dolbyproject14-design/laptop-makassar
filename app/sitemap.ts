@@ -1,24 +1,38 @@
-import type { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next'
+import { dummyProducts } from '@/lib/data/products'
+
+// Tambahkan baris ini agar sitemap bisa di-generate saat build statis
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://laptopmakassar.com'
+
+  const productUrls = dummyProducts.map((product) => ({
+    url: `${baseUrl}/products/${product.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }))
+
   return [
     {
-      url: 'https://laptopmakassar.com',
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: 'https://laptopmakassar.com/products',
+      url: `${baseUrl}/products`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: 'https://laptopmakassar.com/rentals',
+      url: `${baseUrl}/rentals`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
+    ...productUrls,
   ]
 }
