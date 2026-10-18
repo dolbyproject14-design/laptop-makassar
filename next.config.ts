@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export', // Wajib untuk Cloudflare Pages (Static Export)
   devIndicators: false,
-  cacheComponents: true,
-  partialPrefetching: true,
+  // cacheComponents: true,     <-- DIHAPUS (tidak support static export)
+  // partialPrefetching: true,  <-- DIHAPUS (tidak support static export)
   turbopack: {
     rules: {
       "*.css": {
@@ -13,6 +14,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    unoptimized: true, // Wajib untuk static export agar gambar tidak error
     remotePatterns: [
       {
         protocol: "https",
