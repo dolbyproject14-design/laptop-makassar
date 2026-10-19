@@ -7,11 +7,9 @@ import { dummyProducts } from "@/lib/data/products";
 
 const categories = [
   "Semua",
-  "Gaming",
-  "Ultrabook",
-  "Business",
-  "Office",
-  "Laptop Entry-Level",
+  ...Array.from(new Set(dummyProducts.map((product) => product.category))).sort(
+    (a, b) => a.localeCompare(b, "id"),
+  ),
 ];
 const sortOptions = [
   { value: "terbaru", label: "Terbaru" },
@@ -149,6 +147,11 @@ export default function CatalogSection() {
                     }`}
                   >
                     {cat}
+                    {cat !== "Semua" && (
+                      <span className="ml-2 text-xs opacity-75">
+                        {dummyProducts.filter((product) => product.category === cat).length}
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
