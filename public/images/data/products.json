@@ -144,7 +144,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/05.jpg",
     "price": 8500000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Laptop Mid-Range / Premium",
     "isSoldOut": false,
     "description": "ASUS Vivobook A1402ZA dibekali prosesor Intel Core i7 Gen 12 performa tinggi dengan tampilan warna Icelight Silver yang elegan.",
@@ -157,7 +157,8 @@
       "battery": "Hingga 6 jam",
       "weight": "1.5 kg",
       "os": "DOS"
-    }
+    },
+    "image": null
   },
   {
     "id": "6",
