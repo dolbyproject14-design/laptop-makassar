@@ -11,6 +11,12 @@ export interface Product {
   category: string;
   description: string;
   isSoldOut: boolean;
+  design?: {
+    material: string;
+    color: string;
+    weight: string;
+    thickness: string;
+  };
   specs: {
     cpu: string;
     ram: string;
@@ -22,7 +28,6 @@ export interface Product {
     os: string;
   };
 }
-
 export const dummyProducts: Product[] = productsData as Product[];
 
 export function getProductBySlug(slug: string): Product | undefined {

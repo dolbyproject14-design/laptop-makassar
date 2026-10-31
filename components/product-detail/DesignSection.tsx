@@ -3,10 +3,20 @@ import type { Product } from "@/lib/data/products";
 import { getDesignData } from "@/lib/data/products";
 
 export default function DesignSection({ product }: { product: Product }) {
-  const design = getDesignData(product);
+  // 1. Ambil data cadangan (otomatis) jika dashboard kosong
+  const fallback = getDesignData(product);
+
+  // 2. Gunakan data dari Dashboard jika ada, kalau tidak ada pakai data cadangan
+  const design = {
+    material: product.design?.material || fallback.material,
+    color: product.design?.color || fallback.color,
+    weight: product.design?.weight || product.specs?.weight || fallback.weight,
+    thickness: product.design?.thickness || fallback.thickness,
+    features: fallback.features, // Fitur desain tetap pakai bawaan sistem
+  };
 
   return (
-    <section className="py-16 md:py-24 bg-brand-onyx text-white">
+    <section className="py-16 md:py-24 bg-brand-onyx text-white border-t border-white/5">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <p className="text-sm font-semibold text-brand-gold uppercase tracking-wider mb-2">
