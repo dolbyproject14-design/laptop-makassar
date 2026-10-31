@@ -96,8 +96,8 @@
     "slug": "asus-a416j-i5-1035g1",
     "name": "ASUS A416J",
     "brand": "Asus",
-    "imageUrl": "/images/products/03.jpg",
-    "price": 5000000,
+    "imageUrl": "/images/products/img-1793447165953.jpg",
+    "price": 4850000,
     "condition": "Second",
     "category": "Business",
     "isSoldOut": false,
@@ -112,7 +112,7 @@
       "weight": "1.6 kg",
       "os": "Windows 10 / 11"
     },
-    "image": null
+    "image": {}
   },
   {
     "id": "4",
