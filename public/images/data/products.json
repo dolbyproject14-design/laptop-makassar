@@ -95,8 +95,8 @@
     "brand": "Asus",
     "imageUrl": "/images/products/04.jpg",
     "price": 3800000,
-    "condition": "Baru",
-    "category": "Laptop Everyday / Office",
+    "condition": "Second",
+    "category": "Business",
     "isSoldOut": false,
     "description": "ASUS A409JA ditenagai Intel Core i3 dengan kapasitas penyimpanan HDD 1TB yang sangat luas untuk menyimpan dokumen dan media.",
     "specs": {
@@ -108,7 +108,8 @@
       "battery": "Hingga 5 jam",
       "weight": "1.6 kg",
       "os": "Windows 10 / 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "5",
