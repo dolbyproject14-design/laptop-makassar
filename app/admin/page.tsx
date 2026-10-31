@@ -22,8 +22,6 @@ import {
   AlertTriangle,
   Boxes,
   Activity,
-  ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -212,7 +210,6 @@ export default function AdminDashboard() {
     });
   };
 
-  // Hitung Statistik untuk Dashboard
   const stats = useMemo(() => {
     const totalProducts = products.length;
     const soldOut = products.filter((p) => p.isSoldOut).length;
@@ -383,7 +380,6 @@ export default function AdminDashboard() {
           {/* KONTEN BERDASARKAN TAB */}
           {activeTab === "Dashboard" && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* STATS CARDS */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
                   title="Total Produk"
@@ -415,7 +411,6 @@ export default function AdminDashboard() {
                 />
               </div>
 
-              {/* ACTIVITY / RECENT PRODUCTS */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-6">
                   <div className="flex items-center justify-between mb-6">
@@ -454,10 +449,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* QUICK STATS MOCKUP */}
                 <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 flex flex-col justify-center items-center text-center">
                   <div className="w-20 h-20 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                    <TrendingUpIcon />
+                    <Activity className="w-10 h-10 text-green-500" />
                   </div>
                   <h3 className="text-lg font-bold mb-1">Website Sangat Cepat</h3>
                   <p className="text-sm text-gray-500 max-w-xs">
@@ -471,7 +465,6 @@ export default function AdminDashboard() {
 
           {activeTab === "Products" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* SEARCH BAR */}
               <div className="mb-6 flex items-center gap-3">
                 <div className="relative w-full max-w-md">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -487,7 +480,6 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              {/* TABLE */}
               <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
@@ -593,7 +585,8 @@ export default function AdminDashboard() {
           }
         }}
       >
-        <DialogContent className="max-w-4xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 max-h-[90vh] overflow-y-auto">
+        {/* !w-[95vw] dan sm:max-w-[900px] adalah kunci agar modal lebar */}
+        <DialogContent className="w-[95vw] max-w-4xl sm:max-w-[900px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
               {editingId ? "Edit Produk" : "Tambah Produk Baru"}
@@ -601,8 +594,8 @@ export default function AdminDashboard() {
           </DialogHeader>
 
           <div className="space-y-6 mt-4">
-            {/* INFO UTAMA */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* INFO UTAMA (3 KOLOM) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="space-y-2">
                 <Label>Nama Laptop</Label>
                 <Input
@@ -637,7 +630,7 @@ export default function AdminDashboard() {
                   className="bg-gray-50 dark:bg-gray-950"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:col-span-2">
                 <Label>Deskripsi Singkat</Label>
                 <Input
                   value={formData.description}
@@ -680,7 +673,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* SPESIFIKASI - GRID LEBIH LEBAR */}
+            {/* SPESIFIKASI - GRID 4 KOLOM */}
             <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
               <h3 className="text-lg font-bold mb-4">Spesifikasi</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -817,22 +810,3 @@ const StatCard = ({ title, value, icon: Icon, color, desc }: any) => {
     </div>
   );
 };
-
-// Ikon Trending Up Kustom
-const TrendingUpIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="32"
-    height="32"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="text-green-500"
-  >
-    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-    <polyline points="16 7 22 7 22 13" />
-  </svg>
-);
