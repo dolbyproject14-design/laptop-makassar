@@ -654,7 +654,7 @@
     "brand": "HP",
     "imageUrl": "/images/products/28.jpg",
     "price": 4500000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Laptop Office / Student",
     "isSoldOut": false,
     "description": "HP 14s entry-level handal untuk tugas harian.",
@@ -666,8 +666,9 @@
       "screen": "14.0\" Silver + DOS",
       "battery": "Hingga 7 jam",
       "weight": "1.4 kg",
-      "os": "DOS"
-    }
+      "os": "Windows 11"
+    },
+    "image": null
   },
   {
     "id": "29",
