@@ -75,7 +75,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/02.jpg",
     "price": 15500000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Gaming",
     "isSoldOut": false,
     "description": "Asus ROG Flow Z13 — tablet gaming 2-in-1 dengan Intel Core i5 Gen 12 dan layar sentuh 13 inci yang bisa dilipat.",
@@ -88,7 +88,8 @@
       "battery": "Hingga 8 jam",
       "weight": "1.1 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "3",
