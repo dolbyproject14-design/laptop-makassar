@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { dummyProducts } from '@/lib/data/products'
 
-// Tambahkan baris ini agar sitemap bisa di-generate saat build statis
+ 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {

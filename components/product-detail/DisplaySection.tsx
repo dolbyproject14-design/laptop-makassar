@@ -1,10 +1,8 @@
 import { Monitor, Sun, RefreshCw, Eye } from "lucide-react";
 import type { Product } from "@/lib/data/products";
 import { getDisplayData } from "@/lib/data/products";
-
 export default function DisplaySection({ product }: { product: Product }) {
   const display = getDisplayData(product);
-
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -27,9 +25,7 @@ export default function DisplaySection({ product }: { product: Product }) {
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-full object-cover opacity-80"
-              />
-              {/* Simulasi display */}
+                className="w-full h-full object-cover opacity-80"/>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-white text-center p-8">
                   <p className="text-sm text-white/60 uppercase tracking-wider mb-2">

@@ -6,12 +6,9 @@ export default function RentalPromo() {
   return (
     <section className="container mx-auto px-4 py-16">
       <div className="relative bg-gradient-to-br from-brand-onyx to-brand-red-dark rounded-3xl overflow-hidden">
-        {/* Decorative */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-red/20 rounded-full blur-3xl" />
-
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 p-8 md:p-16 items-center">
-          {/* Left */}
           <div className="text-white space-y-6">
             <div className="inline-flex items-center gap-2 bg-brand-gold/20 border border-brand-gold/40 rounded-full px-4 py-1.5">
               <Zap className="w-4 h-4 text-brand-gold" />
@@ -51,15 +48,12 @@ export default function RentalPromo() {
             <Link href="/rentals" className="inline-block pt-2">
               <Button
                 size="lg"
-                className="bg-brand-gold hover:bg-yellow-400 text-brand-onyx font-bold gap-2"
-              >
+                className="bg-brand-gold hover:bg-yellow-400 text-brand-onyx font-bold gap-2" >
                 Lihat Semua Rental
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
           </div>
-
-          {/* Right: Mockup */}
           <div className="hidden lg:block">
             <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
