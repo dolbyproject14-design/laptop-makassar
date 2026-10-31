@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Home,
   Monitor,
@@ -18,7 +18,12 @@ import {
   UploadCloud,
   Package,
   LogOut,
-  Image as ImageIcon,
+  DollarSign,
+  AlertTriangle,
+  Boxes,
+  Activity,
+  ArrowUpRight,
+  ArrowDownRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,9 +42,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export default function AdminDashboard() {
-  const [isDark, setIsDark] = useState(true); // Default dark mode
+  const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState("Products");
+  const [activeTab, setActiveTab] = useState("Dashboard");
 
   const [token, setToken] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -73,7 +78,6 @@ export default function AdminDashboard() {
   };
   const [formData, setFormData] = useState(initialForm);
 
-  // Handle Dark Mode
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
@@ -82,7 +86,6 @@ export default function AdminDashboard() {
     }
   }, [isDark]);
 
-  // Cek Token Tersimpan
   useEffect(() => {
     const savedToken = localStorage.getItem("gh_token");
     if (savedToken) {
@@ -209,13 +212,21 @@ export default function AdminDashboard() {
     });
   };
 
+  // Hitung Statistik untuk Dashboard
+  const stats = useMemo(() => {
+    const totalProducts = products.length;
+    const soldOut = products.filter((p) => p.isSoldOut).length;
+    const available = totalProducts - soldOut;
+    const totalValue = products.reduce((acc, p) => acc + (p.price || 0), 0);
+    return { totalProducts, soldOut, available, totalValue };
+  }, [products]);
+
   const filteredProducts = products.filter(
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.brand.toLowerCase().includes(search.toLowerCase())
   );
 
-  // --- TAMPILAN LOGIN ---
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-950 p-4">
@@ -249,7 +260,6 @@ export default function AdminDashboard() {
     );
   }
 
-  // --- TAMPILAN DASHBOARD UTAMA ---
   return (
     <div className={`flex min-h-screen w-full ${isDark ? "dark" : ""}`}>
       <div className="flex w-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
@@ -330,24 +340,23 @@ export default function AdminDashboard() {
           </div>
         </nav>
 
-        {/* MAIN CONTENT */}
+        {/* MAIN CONTENT AREA */}
         <main className="flex-1 p-6 md:p-10 overflow-auto h-screen">
-          {/* HEADER */}
+          {/* HEADER UNIVERSAL */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="text-3xl font-bold">Manajemen Produk</h1>
-              <p className="text-gray-500 mt-1">Kelola katalog laptop Anda di sini.</p>
+              <h1 className="text-3xl font-bold">
+                {activeTab === "Dashboard" && "Ringkasan Dashboard"}
+                {activeTab === "Products" && "Manajemen Produk"}
+                {activeTab === "Settings" && "Pengaturan"}
+              </h1>
+              <p className="text-gray-500 mt-1">
+                {activeTab === "Dashboard" && "Pantau performa toko Anda hari ini."}
+                {activeTab === "Products" && "Kelola katalog laptop Anda di sini."}
+                {activeTab === "Settings" && "Konfigurasi preferensi akun admin."}
+              </p>
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="relative w-full md:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input
-                  placeholder="Cari laptop..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800"
-                />
-              </div>
               <Button
                 onClick={() => setIsDark(!isDark)}
                 variant="outline"
@@ -356,104 +365,224 @@ export default function AdminDashboard() {
               >
                 {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
-              <Button
-                onClick={() => {
-                  setFormData(initialForm);
-                  setEditingId(null);
-                  setIsModalOpen(true);
-                }}
-                className="bg-red-600 hover:bg-red-700 text-white shrink-0 shadow-lg shadow-red-600/20"
-              >
-                <Plus className="w-4 h-4 mr-2" /> Tambah Produk
-              </Button>
+              {activeTab === "Products" && (
+                <Button
+                  onClick={() => {
+                    setFormData(initialForm);
+                    setEditingId(null);
+                    setIsModalOpen(true);
+                  }}
+                  className="bg-red-600 hover:bg-red-700 text-white shrink-0 shadow-lg shadow-red-600/20"
+                >
+                  <Plus className="w-4 h-4 mr-2" /> Tambah Produk
+                </Button>
+              )}
             </div>
           </div>
 
-          {/* TABLE */}
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-gray-50 dark:bg-gray-950 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
-                  <tr>
-                    <th className="px-6 py-4 font-semibold">Produk</th>
-                    <th className="px-6 py-4 font-semibold">Harga</th>
-                    <th className="px-6 py-4 font-semibold">Status</th>
-                    <th className="px-6 py-4 font-semibold text-right">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                  {filteredProducts.length === 0 ? (
-                    <tr>
-                      <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
-                        Tidak ada produk ditemukan.
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredProducts.map((product) => (
-                      <tr
-                        key={product.id}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-                      >
-                        <td className="px-6 py-4 flex items-center gap-4">
-                          <img
-                            src={product.imageUrl}
-                            alt={product.name}
-                            className="w-12 h-12 rounded-lg object-cover bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-                          />
-                          <div>
-                            <p className="font-bold text-gray-900 dark:text-white line-clamp-1">
-                              {product.name}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {product.brand} · {product.category}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 font-medium">
-                          Rp {product.price.toLocaleString("id-ID")}
-                        </td>
-                        <td className="px-6 py-4">
-                          {product.isSoldOut ? (
-                            <Badge variant="destructive" className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-100 border-0">
-                              SOLD OUT
-                            </Badge>
-                          ) : (
-                            <Badge variant="default" className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 hover:bg-green-100 border-0">
-                              TERSEDIA
-                            </Badge>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => openEdit(product)}
-                              className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleDelete(product.id, product.name)}
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+          {/* KONTEN BERDASARKAN TAB */}
+          {activeTab === "Dashboard" && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* STATS CARDS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <StatCard
+                  title="Total Produk"
+                  value={stats.totalProducts}
+                  icon={Boxes}
+                  color="blue"
+                  desc="Katalog tersedia"
+                />
+                <StatCard
+                  title="Stok Tersedia"
+                  value={stats.available}
+                  icon={Activity}
+                  color="green"
+                  desc="Siap dijual"
+                />
+                <StatCard
+                  title="Stok Habis"
+                  value={stats.soldOut}
+                  icon={AlertTriangle}
+                  color="red"
+                  desc="Perlu restock"
+                />
+                <StatCard
+                  title="Estimasi Nilai"
+                  value={`Rp ${(stats.totalValue / 1000000).toFixed(1)}Jt`}
+                  icon={DollarSign}
+                  color="purple"
+                  desc="Total harga katalog"
+                />
+              </div>
+
+              {/* ACTIVITY / RECENT PRODUCTS */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold">Produk Terbaru</h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setActiveTab("Products")}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30"
+                    >
+                      Lihat Semua
+                    </Button>
+                  </div>
+                  <div className="space-y-4">
+                    {products.slice(0, 5).map((p) => (
+                      <div key={p.id} className="flex items-center gap-4">
+                        <img
+                          src={p.imageUrl}
+                          alt={p.name}
+                          className="w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-800"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold truncate">{p.name}</p>
+                          <p className="text-xs text-gray-500">{p.brand}</p>
+                        </div>
+                        <p className="text-sm font-medium">
+                          Rp {p.price.toLocaleString("id-ID")}
+                        </p>
+                      </div>
+                    ))}
+                    {products.length === 0 && (
+                      <p className="text-sm text-gray-500 text-center py-4">
+                        Belum ada produk.
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* QUICK STATS MOCKUP */}
+                <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 flex flex-col justify-center items-center text-center">
+                  <div className="w-20 h-20 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                    <TrendingUpIcon />
+                  </div>
+                  <h3 className="text-lg font-bold mb-1">Website Sangat Cepat</h3>
+                  <p className="text-sm text-gray-500 max-w-xs">
+                    Website menggunakan static export Cloudflare. Kecepatan muat
+                    halaman di bawah 1 detik.
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+
+          {activeTab === "Products" && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* SEARCH BAR */}
+              <div className="mb-6 flex items-center gap-3">
+                <div className="relative w-full max-w-md">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Cari nama laptop atau brand..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="pl-9 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800"
+                  />
+                </div>
+                <p className="text-sm text-gray-500">
+                  Menampilkan {filteredProducts.length} produk
+                </p>
+              </div>
+
+              {/* TABLE */}
+              <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-gray-50 dark:bg-gray-950 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
+                      <tr>
+                        <th className="px-6 py-4 font-semibold">Produk</th>
+                        <th className="px-6 py-4 font-semibold">Harga</th>
+                        <th className="px-6 py-4 font-semibold">Status</th>
+                        <th className="px-6 py-4 font-semibold text-right">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                      {filteredProducts.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
+                            Tidak ada produk ditemukan.
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredProducts.map((product) => (
+                          <tr
+                            key={product.id}
+                            className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                          >
+                            <td className="px-6 py-4 flex items-center gap-4">
+                              <img
+                                src={product.imageUrl}
+                                alt={product.name}
+                                className="w-12 h-12 rounded-lg object-cover bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                              />
+                              <div>
+                                <p className="font-bold text-gray-900 dark:text-white line-clamp-1">
+                                  {product.name}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {product.brand} · {product.category}
+                                </p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 font-medium">
+                              Rp {product.price.toLocaleString("id-ID")}
+                            </td>
+                            <td className="px-6 py-4">
+                              {product.isSoldOut ? (
+                                <Badge variant="destructive" className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-100 border-0">
+                                  SOLD OUT
+                                </Badge>
+                              ) : (
+                                <Badge variant="default" className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 hover:bg-green-100 border-0">
+                                  TERSEDIA
+                                </Badge>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => openEdit(product)}
+                                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleDelete(product.id, product.name)}
+                                  className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "Settings" && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-8 text-center max-w-lg mx-auto">
+               <Settings className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+               <h2 className="text-xl font-bold mb-2">Pengaturan</h2>
+               <p className="text-gray-500 mb-6 text-sm">Fitur pengaturan sedang dalam pengembangan. Hubungi web developer jika butuh bantuan.</p>
+               <Button onClick={handleLogout} variant="destructive">Logout dari Akun</Button>
+            </div>
+          )}
         </main>
       </div>
 
-      {/* MODAL TAMBAH/EDIT PRODUK (DIPERCANTIK) */}
+      {/* MODAL TAMBAH/EDIT PRODUK (DIPERLEBAR) */}
       <Dialog
         open={isModalOpen}
         onOpenChange={(open) => {
@@ -464,7 +593,7 @@ export default function AdminDashboard() {
           }
         }}
       >
-        <DialogContent className="max-w-3xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
               {editingId ? "Edit Produk" : "Tambah Produk Baru"}
@@ -473,7 +602,7 @@ export default function AdminDashboard() {
 
           <div className="space-y-6 mt-4">
             {/* INFO UTAMA */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label>Nama Laptop</Label>
                 <Input
@@ -551,21 +680,21 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* SPESIFIKASI */}
+            {/* SPESIFIKASI - GRID LEBIH LEBAR */}
             <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
               <h3 className="text-lg font-bold mb-4">Spesifikasi</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {Object.keys(formData.specs).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label className="uppercase text-xs tracking-wider text-gray-500">
+                    <Label className="uppercase text-[10px] font-bold tracking-wider text-gray-500">
                       {key}
                     </Label>
                     <Input
                       name={key}
                       value={(formData.specs as any)[key]}
                       onChange={handleSpecChange}
-                      placeholder={`-`}
-                      className="bg-gray-50 dark:bg-gray-950"
+                      placeholder={`Isi ${key}`}
+                      className="bg-gray-50 dark:bg-gray-950 text-sm"
                     />
                   </div>
                 ))}
@@ -661,3 +790,49 @@ const NavItem = ({ icon: Icon, title, active, onClick, open }: any) => {
     </button>
   );
 };
+
+// Komponen Card Statistik
+const StatCard = ({ title, value, icon: Icon, color, desc }: any) => {
+  const colorMap: any = {
+    blue: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
+    green: "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400",
+    red: "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400",
+    purple: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400",
+  };
+
+  return (
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+      <div className="flex items-center justify-between mb-4">
+        <div className={`p-2 rounded-lg ${colorMap[color]}`}>
+          <Icon className="w-5 h-5" />
+        </div>
+      </div>
+      <div>
+        <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>
+        <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          {value}
+        </h3>
+        <p className="text-xs text-gray-400">{desc}</p>
+      </div>
+    </div>
+  );
+};
+
+// Ikon Trending Up Kustom
+const TrendingUpIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="text-green-500"
+  >
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+    <polyline points="16 7 22 7 22 13" />
+  </svg>
+);
