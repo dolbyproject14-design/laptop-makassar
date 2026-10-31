@@ -357,7 +357,7 @@
     "name": "ASUS VIVOBOOK E1404FA",
     "brand": "Asus",
     "imageUrl": "/images/products/17.jpg",
-    "price": 4500000,
+    "price": 8500000,
     "condition": "Baru",
     "category": "Laptop Office / Student",
     "isSoldOut": false,
@@ -371,7 +371,8 @@
       "battery": "Hingga 7 jam",
       "weight": "1.38 kg",
       "os": "DOS"
-    }
+    },
+    "image": null
   },
   {
     "id": "18",
