@@ -52,7 +52,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/01.jpg",
     "price": 28999000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Gaming",
     "isSoldOut": false,
     "description": "Asus TUF Gaming FA608UM dengan AMD Ryzen 7 260 dan NVIDIA RTX 5060 8GB — performa flagship untuk gaming AAA, streaming, dan produktivitas berat.",
@@ -65,7 +65,8 @@
       "battery": "8 jam",
       "weight": "2.5 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "2",
