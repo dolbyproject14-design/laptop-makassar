@@ -78,10 +78,6 @@ const getErrorMessage = (error: unknown) =>
     ? error.message
     : "Terjadi kesalahan yang tidak diketahui.";
 
-/* ============================================================
-   MAIN COMPONENT
-============================================================ */
-
 export default function AdminDashboard() {
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -412,7 +408,7 @@ export default function AdminDashboard() {
     );
   }
 
-  /* ------------------ MAIN LAYOUT ------------------ */
+  
   return (
     <div className={`flex min-h-screen w-full ${isDark ? "dark" : ""}`}>
       <div className="flex w-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
