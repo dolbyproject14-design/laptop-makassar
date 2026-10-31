@@ -1108,7 +1108,7 @@ const DashboardOverview = ({
   rentals: Rental[];
 }) => {
   const soldOut = products.filter((p) => p.isSoldOut).length;
-  const available = products.length - soldOut;
+  const totalPrice = products.reduce((total, product) => total + product.price, 0);
 
   return (
     <div className="animate-in fade-in space-y-8">
@@ -1129,10 +1129,10 @@ const DashboardOverview = ({
         />
         <StatCard
           icon={Package}
-          label="Tersedia"
-          value={available}
+          label="Total Harga"
+          value={`Rp ${totalPrice.toLocaleString("id-ID")}`}
           color="green"
-          hint="Stok siap dijual"
+          hint="Gabungan harga seluruh laptop"
         />
         <StatCard
           icon={Activity}
