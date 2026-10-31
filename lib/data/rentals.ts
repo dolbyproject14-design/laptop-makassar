@@ -1,4 +1,4 @@
-import rentalsData from "@/public/images/data/rentals.json";
+import rentalsData from "@/public/data/rentals.json";
 
 export interface Rental {
   id: string;

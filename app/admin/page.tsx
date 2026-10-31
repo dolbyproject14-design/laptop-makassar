@@ -1182,9 +1182,7 @@ const DashboardOverview = ({
   );
 };
 
-/* ============================================================
-   DATA TABLE
-============================================================ */
+
 
 type DataTableProps<T extends Product | Rental> = {
   data: T[];
