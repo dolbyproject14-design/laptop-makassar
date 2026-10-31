@@ -73,8 +73,8 @@
     "brand": "Asus",
     "imageUrl": "/images/products/03.jpg",
     "price": 5000000,
-    "condition": "Baru",
-    "category": "Laptop Everyday / Office",
+    "condition": "Second",
+    "category": "Business",
     "isSoldOut": false,
     "description": "ASUS A416J hadir dengan prosesor Intel Core i5 Generasi ke-10, cocok untuk kebutuhan kerja harian, sekolah, dan multitasking ringan.",
     "specs": {
@@ -86,7 +86,8 @@
       "battery": "Hingga 5 jam",
       "weight": "1.6 kg",
       "os": "Windows 10 / 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "4",
