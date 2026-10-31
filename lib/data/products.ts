@@ -1,4 +1,4 @@
-import productsData from "@/public/images/data/products.json";
+import productsData from "@/public/data/products.json";
 
 export interface Product {
   id: string;
