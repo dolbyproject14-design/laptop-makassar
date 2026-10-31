@@ -1,5 +1,28 @@
 [
   {
+    "id": "1793434028279",
+    "slug": "acer-nitro-v15-anv15-51-",
+    "name": "ACER NITRO V15 (ANV15-51)",
+    "brand": "ACER",
+    "price": 11500000,
+    "category": "Gaming",
+    "condition": "Second",
+    "description": "Acer Nitro V15 (ANV15-51) adalah laptop gaming entry-level modern yang menawarkan keseimbangan sempurna antara performa tangguh dan harga terjangkau. Ditenagai oleh prosesor Intel Core i5-13420H generasi ke-13 dan kartu grafis NVIDIA GeForce RTX 2050 (4GB), laptop ini sangat andal untuk kebutuhan gaming kasual, pembuatan konten (content creation) ringan, dan tugas produktivitas sehari-hari.",
+    "isSoldOut": false,
+    "image": {},
+    "specs": {
+      "cpu": "Core™ i5-13420H",
+      "ram": "8 GB DDR5",
+      "storage": "512 GB SSD NVMe",
+      "gpu": " NVIDIA® GeForce RTX™ 2050 (4GB GDDR6)",
+      "screen": "15.6 inci, 144Hz Acer ComfyView (Anti-glare)",
+      "battery": "57 Whrs (4-5 jam pemakaian)",
+      "weight": "2.11 kg",
+      "os": "Windows 11 Home"
+    },
+    "imageUrl": "/images/products/img-1793434024176.jpeg"
+  },
+  {
     "id": "1793430989648",
     "slug": "asus-tuf-a15-fa506ncr-ryzen-5-7535hs",
     "name": "ASUS TUF A15 (FA506NCR)",
