@@ -1,5 +1,28 @@
 [
   {
+    "id": "1793430989648",
+    "slug": "asus-tuf-a15-fa506ncr-ryzen-5-7535hs",
+    "name": "ASUS TUF A15 FA506NCR Ryzen 5-7535HS",
+    "brand": "ASUS",
+    "price": 12800000,
+    "category": "Gaming",
+    "condition": "Second",
+    "description": "ASUS TUF Gaming A15 (FA506NCR) dengan spesifikasi AMD Ryzen 5 7535HS, RAM 16 GB, SSD 512 GB, dan NVIDIA GeForce RTX 3050 (4GB) merupakan laptop gaming entry-level yang menawarkan kombinasi performa solid dan daya tahan tinggi",
+    "isSoldOut": false,
+    "image": {},
+    "specs": {
+      "cpu": "AMD RYZEN 5-7535HS",
+      "ram": "16 GB DDR5",
+      "storage": "512 GB NVMe",
+      "gpu": "NVIDIA® GeForce RTX™ 3050 (4GB)",
+      "screen": "15.6 inci",
+      "battery": "48WHrs",
+      "weight": "2.30 Kg",
+      "os": "Windows 11 Home"
+    },
+    "imageUrl": "/images/products/img-1793430987312.jpeg"
+  },
+  {
     "id": "1",
     "slug": "asus-tuf-gaming-fa608um",
     "name": "Asus TUF Gaming FA608UM",
