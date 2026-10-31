@@ -212,7 +212,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/08.jpg",
     "price": 7000000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Laptop Office / Kreatif",
     "isSoldOut": false,
     "description": "ASUS Vivobook M1605YA ditenagai prosesor AMD Ryzen 5 dengan layar 16 inci yang luas dan nyaman untuk bekerja.",
@@ -225,7 +225,8 @@
       "battery": "Hingga 6 jam",
       "weight": "1.7 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "9",
