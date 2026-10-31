@@ -1,12 +1,58 @@
 [
   {
+    "id": "1793434028279",
+    "slug": "acer-nitro-v15-anv15-51-",
+    "name": "ACER NITRO V15 (ANV15-51)",
+    "brand": "ACER",
+    "price": 11500000,
+    "category": "Gaming",
+    "condition": "Second",
+    "description": "Acer Nitro V15 (ANV15-51) adalah laptop gaming entry-level modern yang menawarkan keseimbangan sempurna antara performa tangguh dan harga terjangkau. Ditenagai oleh prosesor Intel Core i5-13420H generasi ke-13 dan kartu grafis NVIDIA GeForce RTX 2050 (4GB), laptop ini sangat andal untuk kebutuhan gaming kasual, pembuatan konten (content creation) ringan, dan tugas produktivitas sehari-hari.",
+    "isSoldOut": false,
+    "image": {},
+    "specs": {
+      "cpu": "Core™ i5-13420H",
+      "ram": "8 GB DDR5",
+      "storage": "512 GB SSD NVMe",
+      "gpu": " NVIDIA® GeForce RTX™ 2050 (4GB GDDR6)",
+      "screen": "15.6 inci, 144Hz Acer ComfyView (Anti-glare)",
+      "battery": "57 Whrs (4-5 jam pemakaian)",
+      "weight": "2.11 kg",
+      "os": "Windows 11 Home"
+    },
+    "imageUrl": "/images/products/img-1793434024176.jpeg"
+  },
+  {
+    "id": "1793430989648",
+    "slug": "asus-tuf-a15-fa506ncr-ryzen-5-7535hs",
+    "name": "ASUS TUF A15 (FA506NCR)",
+    "brand": "ASUS",
+    "price": 12800000,
+    "category": "Gaming",
+    "condition": "Second",
+    "description": "ASUS TUF Gaming A15 (FA506NCR) dengan spesifikasi AMD Ryzen 5 7535HS, RAM 16 GB, SSD 512 GB, dan NVIDIA GeForce RTX 3050 (4GB) merupakan laptop gaming entry-level yang menawarkan kombinasi performa solid dan daya tahan tinggi",
+    "isSoldOut": false,
+    "image": {},
+    "specs": {
+      "cpu": "AMD RYZEN 5-7535HS",
+      "ram": "16 GB DDR5",
+      "storage": "512 GB NVMe",
+      "gpu": "NVIDIA® GeForce RTX™ 3050 (4GB)",
+      "screen": "15.6 inci",
+      "battery": "48WHrs",
+      "weight": "2.30 Kg",
+      "os": "Windows 11 Home"
+    },
+    "imageUrl": "/images/products/img-1793434917073.jpeg"
+  },
+  {
     "id": "1",
     "slug": "asus-tuf-gaming-fa608um",
     "name": "Asus TUF Gaming FA608UM",
     "brand": "Asus",
     "imageUrl": "/images/products/01.jpg",
     "price": 28999000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Gaming",
     "isSoldOut": false,
     "description": "Asus TUF Gaming FA608UM dengan AMD Ryzen 7 260 dan NVIDIA RTX 5060 8GB — performa flagship untuk gaming AAA, streaming, dan produktivitas berat.",
@@ -19,7 +65,8 @@
       "battery": "8 jam",
       "weight": "2.5 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "2",
@@ -28,7 +75,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/02.jpg",
     "price": 15500000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Gaming",
     "isSoldOut": false,
     "description": "Asus ROG Flow Z13 — tablet gaming 2-in-1 dengan Intel Core i5 Gen 12 dan layar sentuh 13 inci yang bisa dilipat.",
@@ -41,17 +88,18 @@
       "battery": "Hingga 8 jam",
       "weight": "1.1 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "3",
     "slug": "asus-a416j-i5-1035g1",
     "name": "ASUS A416J",
     "brand": "Asus",
-    "imageUrl": "/images/products/03.jpg",
-    "price": 5000000,
-    "condition": "Baru",
-    "category": "Laptop Everyday / Office",
+    "imageUrl": "/images/products/img-1793447321478.jpg",
+    "price": 4850000,
+    "condition": "Second",
+    "category": "Business",
     "isSoldOut": false,
     "description": "ASUS A416J hadir dengan prosesor Intel Core i5 Generasi ke-10, cocok untuk kebutuhan kerja harian, sekolah, dan multitasking ringan.",
     "specs": {
@@ -62,8 +110,9 @@
       "screen": "14.0\" FHD (1920x1080) Anti-Glare",
       "battery": "Hingga 5 jam",
       "weight": "1.6 kg",
-      "os": "Windows 10 / 11"
-    }
+      "os": "Windows 11"
+    },
+    "image": {}
   },
   {
     "id": "4",
@@ -72,8 +121,8 @@
     "brand": "Asus",
     "imageUrl": "/images/products/04.jpg",
     "price": 3800000,
-    "condition": "Baru",
-    "category": "Laptop Everyday / Office",
+    "condition": "Second",
+    "category": "Business",
     "isSoldOut": false,
     "description": "ASUS A409JA ditenagai Intel Core i3 dengan kapasitas penyimpanan HDD 1TB yang sangat luas untuk menyimpan dokumen dan media.",
     "specs": {
@@ -85,7 +134,8 @@
       "battery": "Hingga 5 jam",
       "weight": "1.6 kg",
       "os": "Windows 10 / 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "5",
@@ -94,8 +144,8 @@
     "brand": "Asus",
     "imageUrl": "/images/products/05.jpg",
     "price": 8500000,
-    "condition": "Baru",
-    "category": "Laptop Mid-Range / Premium",
+    "condition": "Second",
+    "category": "Ultrabook",
     "isSoldOut": false,
     "description": "ASUS Vivobook A1402ZA dibekali prosesor Intel Core i7 Gen 12 performa tinggi dengan tampilan warna Icelight Silver yang elegan.",
     "specs": {
@@ -107,7 +157,8 @@
       "battery": "Hingga 6 jam",
       "weight": "1.5 kg",
       "os": "DOS"
-    }
+    },
+    "image": null
   },
   {
     "id": "6",
@@ -136,9 +187,9 @@
     "slug": "asus-zenbook-duo-ux8406ma",
     "name": "ASUS Zenbook Duo UX8406MA",
     "brand": "Asus",
-    "imageUrl": "/images/products/07.jpg",
+    "imageUrl": "/images/products/img-1793438288150.jpeg",
     "price": 29000000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Flagship / Dual Screen",
     "isSoldOut": false,
     "description": "Laptop flagship super premium dengan dua layar OLED 3K, ditenagai prosesor terkuat Intel Core Ultra 9 EVO dan RAM jumbo 32GB.",
@@ -151,7 +202,8 @@
       "battery": "Hingga 8 jam",
       "weight": "1.65 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": {}
   },
   {
     "id": "8",
@@ -160,7 +212,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/08.jpg",
     "price": 7000000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Laptop Office / Kreatif",
     "isSoldOut": false,
     "description": "ASUS Vivobook M1605YA ditenagai prosesor AMD Ryzen 5 dengan layar 16 inci yang luas dan nyaman untuk bekerja.",
@@ -173,7 +225,8 @@
       "battery": "Hingga 6 jam",
       "weight": "1.7 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "9",
@@ -357,7 +410,7 @@
     "name": "ASUS VIVOBOOK E1404FA",
     "brand": "Asus",
     "imageUrl": "/images/products/17.jpg",
-    "price": 4500000,
+    "price": 8500000,
     "condition": "Baru",
     "category": "Laptop Office / Student",
     "isSoldOut": false,
@@ -371,7 +424,8 @@
       "battery": "Hingga 7 jam",
       "weight": "1.38 kg",
       "os": "DOS"
-    }
+    },
+    "image": null
   },
   {
     "id": "18",
@@ -600,7 +654,7 @@
     "brand": "HP",
     "imageUrl": "/images/products/28.jpg",
     "price": 4500000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Laptop Office / Student",
     "isSoldOut": false,
     "description": "HP 14s entry-level handal untuk tugas harian.",
@@ -612,8 +666,9 @@
       "screen": "14.0\" Silver + DOS",
       "battery": "Hingga 7 jam",
       "weight": "1.4 kg",
-      "os": "DOS"
-    }
+      "os": "Windows 11"
+    },
+    "image": null
   },
   {
     "id": "29",
