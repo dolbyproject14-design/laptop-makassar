@@ -1,15 +1,35 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  Home, Monitor, ShoppingCart, Settings, ChevronsRight, Moon, Sun, Plus, Edit, Trash2, Search, Loader2, Save, UploadCloud, Package, LogOut, DollarSign, AlertTriangle, Boxes, Activity, Laptop
+  Home, Monitor, ShoppingCart, ChevronsRight, Moon, Sun, Plus, Edit, Trash2, Search, Loader2, Save, UploadCloud, Package, LogOut, Laptop
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getFileFromGitHub, saveFileToGitHub, uploadImageToGitHub } from "@/lib/github";
 import { Badge } from "@/components/ui/badge";
+import type { Product } from "@/lib/data/products";
+import type { Rental } from "@/lib/data/rentals";
+
+type ProductForm = Omit<Product, "id" | "slug" | "imageUrl" | "price" | "design"> & {
+  price: string;
+  image: File | null;
+  design: NonNullable<Product["design"]>;
+};
+
+type RentalForm = Omit<Rental, "id" | "imageUrl" | "pricePerDay"> & {
+  pricePerDay: string;
+  image: File | null;
+};
+
+const productSpecFields = ["cpu", "ram", "storage", "gpu", "screen", "battery", "weight", "os"] as const;
+const rentalSpecFields = ["cpu", "ram", "storage", "gpu"] as const;
+
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui.";
 
 export default function AdminDashboard() {
   const [isDark, setIsDark] = useState(true);
@@ -22,30 +42,63 @@ export default function AdminDashboard() {
   const [search, setSearch] = useState("");
 
   // State untuk Produk
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [productSha, setProductSha] = useState("");
   
   // State untuk Rental
-  const [rentals, setRentals] = useState<any[]>([]);
+  const [rentals, setRentals] = useState<Rental[]>([]);
   const [rentalSha, setRentalSha] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"product" | "rental">("product");
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const initialProductForm = {
+  const initialProductForm: ProductForm = {
     name: "", brand: "", price: "", category: "Gaming", condition: "Baru", description: "", isSoldOut: false, image: null as File | null,
     design: { material: "", color: "", weight: "", thickness: "" }, // FITUR BARU: DESAIN
     specs: { cpu: "", ram: "", storage: "", gpu: "", screen: "", battery: "", weight: "", os: "" },
   };
   
-  const initialRentalForm = {
+  const initialRentalForm: RentalForm = {
     name: "", brand: "", pricePerDay: "", category: "Gaming", minDays: 1, image: null as File | null,
     specs: { cpu: "", ram: "", storage: "", gpu: "" },
   };
 
   const [productForm, setProductForm] = useState(initialProductForm);
   const [rentalForm, setRentalForm] = useState(initialRentalForm);
+
+  const loadAdminData = useCallback(async (tk: string) => {
+    const [prodData, rentData] = await Promise.all([
+      getFileFromGitHub<Product[]>(tk, "public/data/products.json"),
+      getFileFromGitHub<Rental[]>(tk, "public/data/rentals.json"),
+    ]);
+
+    return {
+      products: prodData.data,
+      productSha: prodData.sha,
+      rentals: rentData.data,
+      rentalSha: rentData.sha,
+    };
+  }, []);
+
+  const login = async (tk: string) => {
+    setLoading(true);
+    try {
+      const data = await loadAdminData(tk);
+      setToken(tk);
+      setProducts(data.products);
+      setProductSha(data.productSha);
+      setRentals(data.rentals);
+      setRentalSha(data.rentalSha);
+      setIsLoggedIn(true);
+      localStorage.setItem("gh_token", tk);
+    } catch (err: unknown) {
+      alert(getErrorMessage(err));
+      localStorage.removeItem("gh_token");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isDark) document.documentElement.classList.add("dark");
@@ -54,31 +107,22 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const savedToken = localStorage.getItem("gh_token");
-    if (savedToken) { setToken(savedToken); login(savedToken); }
-  }, []);
+    if (!savedToken) return;
 
-  const login = async (tk: string) => {
-    setLoading(true);
-    try {
-      // Ambil data Products
-      const prodData = await getFileFromGitHub(tk, "public/data/products.json");
-      setProducts(prodData.data);
-      setProductSha(prodData.sha);
-
-      // Ambil data Rentals
-      const rentData = await getFileFromGitHub(tk, "public/data/rentals.json");
-      setRentals(rentData.data);
-      setRentalSha(rentData.sha);
-      
-      setIsLoggedIn(true);
-      localStorage.setItem("gh_token", tk);
-    } catch (err: any) {
-      alert(err.message);
-      localStorage.removeItem("gh_token");
-    } finally {
-      setLoading(false);
-    }
-  };
+    void loadAdminData(savedToken)
+      .then((data) => {
+        setToken(savedToken);
+        setProducts(data.products);
+        setProductSha(data.productSha);
+        setRentals(data.rentals);
+        setRentalSha(data.rentalSha);
+        setIsLoggedIn(true);
+      })
+      .catch((error: unknown) => {
+        alert(getErrorMessage(error));
+        localStorage.removeItem("gh_token");
+      });
+  }, [loadAdminData]);
 
   const handleLogout = () => {
     localStorage.removeItem("gh_token");
@@ -91,13 +135,14 @@ export default function AdminDashboard() {
     if (!productForm.name || !productForm.price) return alert("Nama & Harga wajib diisi");
     setLoading(true);
     try {
-      let imageUrl = productForm.image ? await uploadImageToGitHub(token, productForm.image) : "/images/logo.png";
+      const imageUrl = productForm.image ? await uploadImageToGitHub(token, productForm.image) : "/images/logo.png";
+      const { image, ...productData } = productForm;
       let updated = [...products];
 
       if (editingId) {
-        updated = updated.map(p => p.id === editingId ? { ...p, ...productForm, price: parseInt(productForm.price), imageUrl: productForm.image ? imageUrl : p.imageUrl } : p);
+        updated = updated.map(p => p.id === editingId ? { ...p, ...productData, price: parseInt(productForm.price), imageUrl: image ? imageUrl : p.imageUrl } : p);
       } else {
-        updated.unshift({ id: Date.now().toString(), slug: productForm.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"), ...productForm, price: parseInt(productForm.price), imageUrl });
+        updated.unshift({ id: Date.now().toString(), slug: productForm.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"), ...productData, price: parseInt(productForm.price), imageUrl });
       }
 
       const res = await saveFileToGitHub(token, "public/data/products.json", updated, productSha, `Admin: Update Produk ${productForm.name}`);
@@ -105,7 +150,7 @@ export default function AdminDashboard() {
       setProductSha(res.content.sha);
       setIsModalOpen(false);
       alert("✅ Produk disimpan!");
-    } catch (err: any) { alert(err.message); } finally { setLoading(false); }
+    } catch (err: unknown) { alert(getErrorMessage(err)); } finally { setLoading(false); }
   };
 
   // --- LOGIKA SIMPAN RENTAL ---
@@ -113,13 +158,14 @@ export default function AdminDashboard() {
     if (!rentalForm.name || !rentalForm.pricePerDay) return alert("Nama & Harga wajib diisi");
     setLoading(true);
     try {
-      let imageUrl = rentalForm.image ? await uploadImageToGitHub(token, rentalForm.image) : "/images/logo.png";
+      const imageUrl = rentalForm.image ? await uploadImageToGitHub(token, rentalForm.image) : "/images/logo.png";
+      const { image, ...rentalData } = rentalForm;
       let updated = [...rentals];
 
       if (editingId) {
-        updated = updated.map(r => r.id === editingId ? { ...r, ...rentalForm, pricePerDay: parseInt(rentalForm.pricePerDay), imageUrl: rentalForm.image ? imageUrl : r.imageUrl } : r);
+        updated = updated.map(r => r.id === editingId ? { ...r, ...rentalData, pricePerDay: parseInt(rentalForm.pricePerDay), imageUrl: image ? imageUrl : r.imageUrl } : r);
       } else {
-        updated.unshift({ id: Date.now().toString(), ...rentalForm, pricePerDay: parseInt(rentalForm.pricePerDay), imageUrl });
+        updated.unshift({ id: Date.now().toString(), ...rentalData, pricePerDay: parseInt(rentalForm.pricePerDay), imageUrl });
       }
 
       const res = await saveFileToGitHub(token, "public/data/rentals.json", updated, rentalSha, `Admin: Update Rental ${rentalForm.name}`);
@@ -127,7 +173,7 @@ export default function AdminDashboard() {
       setRentalSha(res.content.sha);
       setIsModalOpen(false);
       alert("✅ Rental disimpan!");
-    } catch (err: any) { alert(err.message); } finally { setLoading(false); }
+    } catch (err: unknown) { alert(getErrorMessage(err)); } finally { setLoading(false); }
   };
 
   // --- LOGIKA HAPUS ---
@@ -145,30 +191,41 @@ export default function AdminDashboard() {
         setRentals(updated); setRentalSha(res.content.sha);
       }
       alert("🗑️ Dihapus!");
-    } catch (err: any) { alert(err.message); } finally { setLoading(false); }
+    } catch (err: unknown) { alert(getErrorMessage(err)); } finally { setLoading(false); }
   };
 
-  const openEditProduct = (p: any) => {
+  const openEditProduct = (p: Product) => {
     setModalType("product");
-    setProductForm({ ...p, price: p.price.toString(), image: null, design: p.design || initialProductForm.design });
+    setProductForm({
+      name: p.name,
+      brand: p.brand,
+      price: p.price.toString(),
+      category: p.category,
+      condition: p.condition,
+      description: p.description,
+      isSoldOut: p.isSoldOut,
+      image: null,
+      design: p.design || initialProductForm.design,
+      specs: p.specs,
+    });
     setEditingId(p.id);
     setIsModalOpen(true);
   };
 
-  const openEditRental = (r: any) => {
+  const openEditRental = (r: Rental) => {
     setModalType("rental");
-    setRentalForm({ ...r, pricePerDay: r.pricePerDay.toString(), image: null });
+    setRentalForm({
+      name: r.name,
+      brand: r.brand,
+      pricePerDay: r.pricePerDay.toString(),
+      category: r.category,
+      minDays: r.minDays,
+      image: null,
+      specs: r.specs,
+    });
     setEditingId(r.id);
     setIsModalOpen(true);
   };
-
-  const stats = useMemo(() => {
-    const totalProducts = products.length;
-    const soldOut = products.filter((p) => p.isSoldOut).length;
-    const available = totalProducts - soldOut;
-    const totalValue = products.reduce((acc, p) => acc + (p.price || 0), 0);
-    return { totalProducts, soldOut, available, totalValue, totalRentals: rentals.length };
-  }, [products, rentals]);
 
   if (!isLoggedIn) {
     return (
@@ -183,7 +240,7 @@ export default function AdminDashboard() {
             <Label className="text-gray-300">GitHub Token</Label>
             <Input type="password" placeholder="ghp_..." value={token} onChange={(e) => setToken(e.target.value)} className="bg-gray-950 border-gray-800 text-white" />
           </div>
-          <Button onClick={() => login(token)} disabled={loading} className="w-full bg-red-600 hover:bg-red-700 h-11 text-base">
+          <Button onClick={() => { setLoading(true); void login(token); }} disabled={loading} className="w-full bg-red-600 hover:bg-red-700 h-11 text-base">
             {loading ? <Loader2 className="animate-spin" /> : "Masuk Dashboard"}
           </Button>
         </div>
@@ -284,8 +341,8 @@ export default function AdminDashboard() {
               <div className="border-t pt-4 border-gray-200 dark:border-gray-800">
                 <h3 className="text-lg font-bold mb-4">Spesifikasi</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {Object.keys(productForm.specs).map(k => (
-                    <div key={k} className="space-y-2"><Label className="uppercase text-xs">{k}</Label><Input value={(productForm.specs as any)[k]} onChange={(e) => setProductForm({...productForm, specs: {...productForm.specs, [k]: e.target.value}})} /></div>
+                  {productSpecFields.map(k => (
+                    <div key={k} className="space-y-2"><Label className="uppercase text-xs">{k}</Label><Input value={productForm.specs[k]} onChange={(e) => setProductForm({...productForm, specs: {...productForm.specs, [k]: e.target.value}})} /></div>
                   ))}
                 </div>
               </div>
@@ -321,8 +378,8 @@ export default function AdminDashboard() {
               <div className="border-t pt-4 border-gray-200 dark:border-gray-800">
                 <h3 className="text-lg font-bold mb-4">Spesifikasi Utama</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {Object.keys(rentalForm.specs).map(k => (
-                    <div key={k} className="space-y-2"><Label className="uppercase text-xs">{k}</Label><Input value={(rentalForm.specs as any)[k]} onChange={(e) => setRentalForm({...rentalForm, specs: {...rentalForm.specs, [k]: e.target.value}})} /></div>
+                  {rentalSpecFields.map(k => (
+                    <div key={k} className="space-y-2"><Label className="uppercase text-xs">{k}</Label><Input value={rentalForm.specs[k]} onChange={(e) => setRentalForm({...rentalForm, specs: {...rentalForm.specs, [k]: e.target.value}})} /></div>
                   ))}
                 </div>
               </div>
@@ -345,8 +402,24 @@ export default function AdminDashboard() {
 }
 
 // Komponen Tabel Reusable
-const DataTable = ({ data, type, search, setSearch, onEdit, onDelete }: any) => {
-  const filtered = data.filter((i: any) => i.name.toLowerCase().includes(search.toLowerCase()) || i.brand.toLowerCase().includes(search.toLowerCase()));
+type DataTableProps<T extends Product | Rental> = {
+  data: T[];
+  type: "product" | "rental";
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  onEdit: (item: T) => void;
+  onDelete: (id: string, name: string) => void;
+};
+
+const DataTable = <T extends Product | Rental>({
+  data,
+  type,
+  search,
+  setSearch,
+  onEdit,
+  onDelete,
+}: DataTableProps<T>) => {
+  const filtered = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.brand.toLowerCase().includes(search.toLowerCase()));
   return (
     <div className="animate-in fade-in">
       <div className="mb-6 flex items-center gap-3">
@@ -359,15 +432,15 @@ const DataTable = ({ data, type, search, setSearch, onEdit, onDelete }: any) => 
             <tr><th className="px-6 py-4 font-semibold">Nama</th><th className="px-6 py-4 font-semibold">{type === "product" ? "Harga" : "Harga/Hari"}</th><th className="px-6 py-4 font-semibold">Status</th><th className="px-6 py-4 font-semibold text-right">Aksi</th></tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-            {filtered.length === 0 ? <tr><td colSpan={4} className="text-center py-10 text-gray-500">Kosong.</td></tr> : filtered.map((item: any) => (
+            {filtered.length === 0 ? <tr><td colSpan={4} className="text-center py-10 text-gray-500">Kosong.</td></tr> : filtered.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                 <td className="px-6 py-4 flex items-center gap-4">
-                  <img src={item.imageUrl} className="w-12 h-12 rounded-lg object-cover bg-gray-100 border border-gray-200 dark:border-gray-700" />
+                  <img src={item.imageUrl} alt={item.name} className="w-12 h-12 rounded-lg object-cover bg-gray-100 border border-gray-200 dark:border-gray-700" />
                   <div><p className="font-bold">{item.name}</p><p className="text-xs text-gray-500">{item.brand}</p></div>
                 </td>
-                <td className="px-6 py-4 font-medium">Rp {(type === "product" ? item.price : item.pricePerDay).toLocaleString("id-ID")}</td>
+                <td className="px-6 py-4 font-medium">Rp {("price" in item ? item.price : item.pricePerDay).toLocaleString("id-ID")}</td>
                 <td className="px-6 py-4">
-                  {type === "product" ? (
+                  {"isSoldOut" in item ? (
                     item.isSoldOut ? <Badge variant="destructive">SOLD OUT</Badge> : <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-0">TERSEDIA</Badge>
                   ) : <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-0">RENTAL</Badge>}
                 </td>
@@ -385,7 +458,15 @@ const DataTable = ({ data, type, search, setSearch, onEdit, onDelete }: any) => 
 };
 
 // Komponen Sidebar
-const NavItem = ({ icon: Icon, title, active, onClick, open }: any) => (
+type NavItemProps = {
+  icon: LucideIcon;
+  title: string;
+  active: boolean;
+  onClick: () => void;
+  open: boolean;
+};
+
+const NavItem = ({ icon: Icon, title, active, onClick, open }: NavItemProps) => (
   <button onClick={onClick} className={`flex h-11 w-full items-center rounded-xl transition-all duration-200 ${active ? "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-bold shadow-sm" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"}`}>
     <div className="grid h-full w-12 place-content-center shrink-0"><Icon className="h-5 w-5" /></div>
     {open && <span className="text-sm">{title}</span>}

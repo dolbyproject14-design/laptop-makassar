@@ -8,18 +8,18 @@ const encodeBase64 = (str: string) => window.btoa(unescape(encodeURIComponent(st
 const decodeBase64 = (str: string) => decodeURIComponent(escape(window.atob(str.replace(/\s/g, ''))));
 
 // Fungsi umum untuk mengambil file JSON apa pun dari GitHub
-export async function getFileFromGitHub(token: string, filePath: string) {
+export async function getFileFromGitHub<T>(token: string, filePath: string): Promise<{ data: T; sha: string }> {
   const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}?ref=main`);
   if (!res.ok) throw new Error(`Gagal mengambil data ${filePath}. Cek Token/Koneksi.`);
   const data = await res.json();
   return {
-    data: JSON.parse(decodeBase64(data.content)),
+    data: JSON.parse(decodeBase64(data.content)) as T,
     sha: data.sha
   };
 }
 
 // Fungsi umum untuk menyimpan file JSON ke GitHub
-export async function saveFileToGitHub(token: string, filePath: string, content: any[], sha: string, message: string) {
+export async function saveFileToGitHub(token: string, filePath: string, content: unknown[], sha: string, message: string) {
   const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export async function uploadImageToGitHub(token: string, file: File) {
     reader.onload = () => resolve(reader.result as string);
   });
 
-  let cleanName = file.name.toLowerCase().replace(/[^a-z0-9.]/g, "-");
+  const cleanName = file.name.toLowerCase().replace(/[^a-z0-9.]/g, "-");
   const extension = cleanName.split('.').pop();
   const safeExt = (extension === "jpg" || extension === "png" || extension === "webp") ? extension : "jpg";
   const fileName = `img-${Date.now()}.${safeExt}`;
