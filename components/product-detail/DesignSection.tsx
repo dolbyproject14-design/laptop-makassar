@@ -6,7 +6,7 @@ export default function DesignSection({ product }: { product: Product }) {
   // 1. Ambil data cadangan (otomatis) jika dashboard kosong
   const fallback = getDesignData(product);
 
-  // 2. Gunakan data dari Dashboard jika ada, kalau tidak ada pakai data cadangan
+  // 2. PRIORITASKAN DATA DARI DASHBOARD (product.design)
   const design = {
     material: product.design?.material || fallback.material,
     color: product.design?.color || fallback.color,
