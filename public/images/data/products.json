@@ -189,7 +189,7 @@
     "brand": "Asus",
     "imageUrl": "/images/products/07.jpg",
     "price": 29000000,
-    "condition": "Baru",
+    "condition": "Second",
     "category": "Flagship / Dual Screen",
     "isSoldOut": false,
     "description": "Laptop flagship super premium dengan dua layar OLED 3K, ditenagai prosesor terkuat Intel Core Ultra 9 EVO dan RAM jumbo 32GB.",
@@ -202,7 +202,8 @@
       "battery": "Hingga 8 jam",
       "weight": "1.65 kg",
       "os": "Windows 11"
-    }
+    },
+    "image": null
   },
   {
     "id": "8",
