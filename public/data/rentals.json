@@ -6,11 +6,11 @@
     "imageUrl": "/images/products/06.jpg",
     "pricePerDay": 250000,
     "category": "Ultrabook",
-    "specs": { 
-      "cpu": "Intel Celeron N4500", 
-      "ram": "4GB LPDDR4X", 
-      "storage": "256GB SSD", 
-      "gpu": "Intel UHD Graphics" 
+    "specs": {
+      "cpu": "Intel Celeron N4500",
+      "ram": "4GB LPDDR4X",
+      "storage": "256GB SSD",
+      "gpu": "Intel UHD Graphics"
     },
     "minDays": 1
   },
@@ -21,11 +21,11 @@
     "imageUrl": "/images/products/17.jpg",
     "pricePerDay": 250000,
     "category": "Office",
-    "specs": { 
-      "cpu": "AMD Ryzen 5-7520U", 
-      "ram": "16GB", 
-      "storage": "512GB SSD", 
-      "gpu": "AMD Radeon Graphics" 
+    "specs": {
+      "cpu": "AMD Ryzen 5-7520U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "AMD Radeon Graphics"
     },
     "minDays": 1
   },
@@ -34,15 +34,15 @@
     "name": "Asus ROG Strix G16",
     "brand": "Asus",
     "imageUrl": "/images/products/60.jpg",
-    "pricePerDay": 200000,
+    "pricePerDay": 400000,
     "category": "Gaming",
-    "specs": { 
-      "cpu": "Intel Core i7", 
-      "ram": "16GB", 
-      "storage": "1TB SSD", 
-      "gpu": "RTX 4060" 
+    "specs": {
+      "cpu": "Intel Core i7",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "RTX 4060"
     },
-    "minDays": 2
+    "minDays": 1
   },
   {
     "id": "r4",
@@ -51,11 +51,11 @@
     "imageUrl": "/images/products/37.jpg",
     "pricePerDay": 130000,
     "category": "Business",
-    "specs": { 
-      "cpu": "Intel Core i7", 
-      "ram": "16GB", 
-      "storage": "512GB SSD", 
-      "gpu": "Intel Iris Xe" 
+    "specs": {
+      "cpu": "Intel Core i7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "Intel Iris Xe"
     },
     "minDays": 1
   },
@@ -66,11 +66,11 @@
     "imageUrl": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80",
     "pricePerDay": 220000,
     "category": "Creator",
-    "specs": { 
-      "cpu": "Intel Core i7", 
-      "ram": "16GB", 
-      "storage": "1TB SSD", 
-      "gpu": "RTX 4050" 
+    "specs": {
+      "cpu": "Intel Core i7",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "RTX 4050"
     },
     "minDays": 1
   },
@@ -81,11 +81,11 @@
     "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",
     "pricePerDay": 100000,
     "category": "Gaming",
-    "specs": { 
-      "cpu": "Intel Core i5", 
-      "ram": "8GB", 
-      "storage": "512GB SSD", 
-      "gpu": "RTX 2050" 
+    "specs": {
+      "cpu": "Intel Core i5",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "RTX 2050"
     },
     "minDays": 1
   },
@@ -96,11 +96,11 @@
     "imageUrl": "https://images.unsplash.com/photo-1618424181497-157f25b6ddd5?w=800&q=80",
     "pricePerDay": 150000,
     "category": "Gaming",
-    "specs": { 
-      "cpu": "Intel Core i7", 
-      "ram": "16GB", 
-      "storage": "512GB SSD", 
-      "gpu": "RTX 4060" 
+    "specs": {
+      "cpu": "Intel Core i7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "RTX 4060"
     },
     "minDays": 2
   },
@@ -111,11 +111,11 @@
     "imageUrl": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80",
     "pricePerDay": 120000,
     "category": "Gaming",
-    "specs": { 
-      "cpu": "AMD Ryzen 7", 
-      "ram": "16GB", 
-      "storage": "512GB SSD", 
-      "gpu": "RTX 4050" 
+    "specs": {
+      "cpu": "AMD Ryzen 7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "RTX 4050"
     },
     "minDays": 1
   }
