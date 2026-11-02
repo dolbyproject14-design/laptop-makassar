@@ -34,7 +34,7 @@
     "name": "Asus ROG Strix G16",
     "brand": "Asus",
     "imageUrl": "/images/products/60.jpg",
-    "pricePerDay": 400000,
+    "pricePerDay": 200000,
     "category": "Gaming",
     "specs": {
       "cpu": "Intel Core i7",
@@ -42,7 +42,7 @@
       "storage": "1TB SSD",
       "gpu": "RTX 4060"
     },
-    "minDays": 1
+    "minDays": 2
   },
   {
     "id": "r4",
